@@ -1,0 +1,39 @@
+# Build output
+/build/
+/cmake-build-*/
+/CMakeFiles/
+/CMakeCache.txt
+/compile_commands.json
+/Testing/
+
+# Market data and generated replay output
+/data/
+
+# C and C++ build artifacts
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.profraw
+*.profdata
+
+# Web tooling
+/web/node_modules/
+/web/dist/
+
+# Python tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Editor and operating-system files
+.DS_Store
+.idea/
+.vscode/

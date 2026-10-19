@@ -9,7 +9,7 @@ This is the working plan for the project. Follow it phase by phase. Each phase l
 | # | Phase | Milestone | Status |
 |---|---|---|---|
 | 0 | Foundations, tooling, core types | M1 | [ ] |
-| 1 | Reference order book (correctness oracle) | M1 | [ ] |
+| 1 | Reference order book (correctness oracle) | M1 | [x] |
 | 2 | High-performance L3 order book | M1 | [ ] |
 | 3 | Matching engine | M1 | [ ] |
 | 4 | NASDAQ ITCH 5.0 parser and synthetic feed generator | M1 | [ ] |
@@ -270,9 +270,9 @@ These are **targets, not claims**. Replace them with measured numbers in the REA
   - `for_each_order(...)`
 
 ### Tasks
-- [ ] Implement `ReferenceBook` in `book/reference_book.hpp`.
-- [ ] Write scenario tests as tables of operations and expected states (FIFO priority, partial fills, replace losing priority, removing the last order at a level, empty book queries).
-- [ ] Implement a canonical `dump()` that prints the full book state as sorted, deterministic text, for diffing in tests.
+- [x] Implement `ReferenceBook` in `book/reference_book.hpp`.
+- [x] Write scenario tests as tables of operations and expected states (FIFO priority, partial fills, replace losing priority, removing the last order at a level, empty book queries).
+- [x] Implement a canonical `dump()` that prints the full book state as sorted, deterministic text, for diffing in tests.
 
 ### Exit criteria
 - 100% line coverage on `ReferenceBook` (use `llvm-cov`).
