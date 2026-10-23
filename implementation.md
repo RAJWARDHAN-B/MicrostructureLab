@@ -315,8 +315,8 @@ static_assert(sizeof(Order) == 32);
 - `BookManager` holds an array of books indexed by `Locate`, because ITCH locate codes are dense and small. Symbol metadata comes from ITCH `R` (Stock Directory) messages.
 
 ### Tasks
-- [ ] `memory/object_pool.hpp` (index-based, free list, capacity fixed at construction).
-- [ ] `book/level_bitmap.hpp` + unit tests (set/clear/find_highest/find_lowest/find_next_below/above).
+- [x] `memory/object_pool.hpp` (index-based, free list, capacity fixed at construction).
+- [x] `book/level_bitmap.hpp` + unit tests (set/clear/find_highest/find_lowest/find_next_below/above).
 - [ ] `book/price_ladder.hpp` with re-centering and the sparse fallback.
 - [ ] `book/order_index.hpp` (both policies).
 - [ ] `book/order_book.hpp`, templated on the index policy, with the same API as `ReferenceBook`.
