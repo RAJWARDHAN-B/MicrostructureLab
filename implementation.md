@@ -8,7 +8,7 @@ This is the working plan for the project. Follow it phase by phase. Each phase l
 
 | # | Phase | Milestone | Status |
 |---|---|---|---|
-| 0 | Foundations, tooling, core types | M1 | [ ] |
+| 0 | Foundations, tooling, core types | M1 | [-] |
 | 1 | Reference order book (correctness oracle) | M1 | [x] |
 | 2 | High-performance L3 order book | M1 | [ ] |
 | 3 | Matching engine | M1 | [ ] |
@@ -22,6 +22,8 @@ This is the working plan for the project. Follow it phase by phase. Each phase l
 | 11 | Network feed handler (MoldUDP64 / multicast) | M4 | [ ] |
 | 12 | Python bindings and research notebooks | M4 | [ ] |
 | 13 | Polish, benchmarks report, publication | M4 | [ ] |
+
+Status: `[ ]` not started, `[-]` in progress, `[x]` complete.
 
 **Milestones**
 
@@ -214,17 +216,17 @@ These are **targets, not claims**. Replace them with measured numbers in the REA
 **Goal:** Set up a repository in which every later phase can be built, tested, sanitized, benchmarked, and run in CI with one command.
 
 ### Tasks
-- [ ] Top-level `CMakeLists.txt` (C++20, CMake ≥ 3.25) and `CMakePresets.json` with presets:
+- [x] Top-level `CMakeLists.txt` (C++20, CMake ≥ 3.25) and `CMakePresets.json` with presets:
   - `debug` (`-O0 -g`, assertions on)
   - `release` (`-O3`, LTO, assertions off, portable, no `-march=native`)
   - `bench` (release + `-march=native`, frame pointers kept for profiling)
   - `asan`, `ubsan`, `tsan`
   - `wasm` (Emscripten toolchain; added in Phase 10 but reserve the name now)
-- [ ] Warnings: `-Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror` for project code only.
-- [ ] Dependencies via `FetchContent` (pinned tags): GoogleTest, Google Benchmark. Nothing else yet.
-- [ ] `.clang-format`, `.clang-tidy` (bugprone, performance, modernize, cppcoreguidelines subset), `.editorconfig`, `.gitignore` (`build/`, `data/`).
-- [ ] GitHub Actions CI with this matrix: {ubuntu clang, ubuntu gcc, macos clang} × {debug + tests, asan, ubsan}, plus a clang-tidy job.
-- [ ] `include/mlab/core/types.hpp` with strong types:
+- [x] Warnings: `-Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror` for project code only.
+- [x] Dependencies via `FetchContent` (pinned tags): GoogleTest, Google Benchmark. Nothing else yet.
+- [x] `.clang-format`, `.clang-tidy` (bugprone, performance, modernize, cppcoreguidelines subset), `.editorconfig`, `.gitignore` (`build/`, `data/`).
+- [x] GitHub Actions CI with this matrix: {ubuntu clang, ubuntu gcc, macos clang} × {debug + tests, asan, ubsan}, plus a clang-tidy job.
+- [x] `include/mlab/core/types.hpp` with strong types:
   ```cpp
   namespace mlab {
   using Price     = std::int64_t;   // ticks; ITCH Price(4) = 1/10000 USD
@@ -235,9 +237,9 @@ These are **targets, not claims**. Replace them with measured numbers in the REA
   enum class Side : std::uint8_t { Buy = 0, Sell = 1 };
   }
   ```
-- [ ] `core/assert.hpp`: `MLAB_ASSERT` (debug only) and `MLAB_VERIFY` (always on, for cold paths).
-- [ ] `core/platform.hpp`: `kCacheLine`, `MLAB_LIKELY/UNLIKELY` (or `[[likely]]`), `MLAB_FORCE_INLINE`, `cpu_relax()` (`_mm_pause` / `__builtin_arm_yield`).
-- [ ] Empty `docs/architecture.md`, `docs/optimization-journal.md`, `docs/adr/0001-record-architecture-decisions.md`.
+- [x] `core/assert.hpp`: `MLAB_ASSERT` (debug only) and `MLAB_VERIFY` (always on, for cold paths).
+- [x] `core/platform.hpp`: `kCacheLine`, `MLAB_LIKELY/UNLIKELY` (or `[[likely]]`), `MLAB_FORCE_INLINE`, `cpu_relax()` (`_mm_pause` / `__builtin_arm_yield`).
+- [x] Empty `docs/architecture.md`, `docs/optimization-journal.md`, `docs/adr/0001-record-architecture-decisions.md`.
 
 ### Exit criteria
 - `cmake --preset debug && cmake --build --preset debug && ctest --preset debug` passes on macOS and in CI.

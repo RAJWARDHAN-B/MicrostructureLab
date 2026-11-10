@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  tests:
+    name: ${{ matrix.os }} / ${{ matrix.compiler }} / ${{ matrix.preset }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: ubuntu-latest, compiler: g++, preset: debug }
+          - { os: ubuntu-latest, compiler: g++, preset: asan }
+          - { os: ubuntu-latest, compiler: g++, preset: ubsan }
+          - { os: ubuntu-latest, compiler: clang++, preset: debug }
+          - { os: ubuntu-latest, compiler: clang++, preset: asan }
+          - { os: ubuntu-latest, compiler: clang++, preset: ubsan }
+          - { os: macos-latest, compiler: clang++, preset: debug }
+          - { os: macos-latest, compiler: clang++, preset: asan }
+          - { os: macos-latest, compiler: clang++, preset: ubsan }
+    env:
+      CXX: ${{ matrix.compiler }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake --preset "${{ matrix.preset }}"
+      - name: Build
+        run: cmake --build --preset "${{ matrix.preset }}" --parallel 2
+      - name: Test
+        run: ctest --preset "${{ matrix.preset }}"
+      - name: Run smoke benchmark
+        run: ./build/${{ matrix.preset }}/mlab_smoke_bench --benchmark_min_time=0.001s
+
+  clang-tidy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install clang-tidy
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy
+      - name: Configure
+        run: cmake --preset debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+      - name: Lint project smoke test
+        run: clang-tidy -p build/debug tests/unit/core_smoke_test.cpp
