@@ -322,8 +322,8 @@ static_assert(sizeof(Order) == 32);
 - [x] `book/price_ladder.hpp` with re-centering and the sparse fallback.
 - [x] `book/order_index.hpp` (both policies).
 - [x] `book/order_book.hpp`, templated on the index policy, with the same API as `ReferenceBook`.
-- [-] **Differential test harness** (`tests/differential/`): a seeded random operation generator with realistic mixes (many cancels, clustered prices, occasional far-away prices and replaces). Apply every operation to both books and compare the full `dump()` periodically and the top of book after every operation. Run 10⁷+ operations per seed across many seeds in CI nightly.
-- [ ] Microbenchmarks (`bench/book_bench.cpp`): add, cancel, execute, replace, best-price lookup, and a realistic mix. Compare `std::map` (ReferenceBook) with OrderBook for each index policy.
+- [x] **Differential test harness** (`tests/differential/`): a seeded random operation generator with realistic mixes (many cancels, clustered prices, occasional far-away prices and replaces). Apply every operation to both books and compare the full `dump()` periodically and the top of book after every operation. Run 10⁷+ operations per seed across many seeds in CI nightly.
+- [x] Microbenchmarks (`bench/book_bench.cpp`): add, cancel, execute, replace, best-price lookup, and a realistic mix. Compare `std::map` (ReferenceBook) with OrderBook for each index policy.
 
 ### Exit criteria
 - The differential test passes for 10⁸ operations across 100 seeds with ASan and UBSan enabled.

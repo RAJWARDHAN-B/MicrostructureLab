@@ -75,3 +75,6 @@ endif()
 
 add_executable(mlab_smoke_bench bench/smoke_bench.cpp)
 target_link_libraries(mlab_smoke_bench PRIVATE mlab_project_options benchmark::benchmark_main)
+
+add_executable(mlab_book_bench bench/book_bench.cpp)
+target_link_libraries(mlab_book_bench PRIVATE mlab_project_options benchmark::benchmark_main)
