@@ -8,9 +8,9 @@ This is the working plan for the project. Follow it phase by phase. Each phase l
 
 | # | Phase | Milestone | Status |
 |---|---|---|---|
-| 0 | Foundations, tooling, core types | M1 | [-] |
+| 0 | Foundations, tooling, core types | M1 | [x] |
 | 1 | Reference order book (correctness oracle) | M1 | [x] |
-| 2 | High-performance L3 order book | M1 | [ ] |
+| 2 | High-performance L3 order book | M1 | [-] |
 | 3 | Matching engine | M1 | [ ] |
 | 4 | NASDAQ ITCH 5.0 parser and synthetic feed generator | M1 | [ ] |
 | 5 | Lock-free pipeline and threading model | M2 | [ ] |
@@ -319,7 +319,7 @@ static_assert(sizeof(Order) == 32);
 ### Tasks
 - [x] `memory/object_pool.hpp` (index-based, free list, capacity fixed at construction).
 - [x] `book/level_bitmap.hpp` + unit tests (set/clear/find_highest/find_lowest/find_next_below/above).
-- [ ] `book/price_ladder.hpp` with re-centering and the sparse fallback.
+- [x] `book/price_ladder.hpp` with re-centering and the sparse fallback.
 - [ ] `book/order_index.hpp` (both policies).
 - [ ] `book/order_book.hpp`, templated on the index policy, with the same API as `ReferenceBook`.
 - [ ] **Differential test harness** (`tests/differential/`): a seeded random operation generator with realistic mixes (many cancels, clustered prices, occasional far-away prices and replaces). Apply every operation to both books and compare the full `dump()` periodically and the top of book after every operation. Run 10⁷+ operations per seed across many seeds in CI nightly.

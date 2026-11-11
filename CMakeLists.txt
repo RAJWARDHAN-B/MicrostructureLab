@@ -44,6 +44,10 @@ if(BUILD_TESTING)
     target_link_libraries(reference_book_test PRIVATE mlab_project_options)
     add_test(NAME reference_book_test COMMAND reference_book_test)
 
+    add_executable(price_ladder_test tests/unit/price_ladder_test.cpp)
+    target_link_libraries(price_ladder_test PRIVATE mlab_project_options)
+    add_test(NAME price_ladder_test COMMAND price_ladder_test)
+
     add_executable(core_smoke_test tests/unit/core_smoke_test.cpp)
     target_link_libraries(core_smoke_test PRIVATE mlab_project_options GTest::gtest_main)
     include(GoogleTest)
