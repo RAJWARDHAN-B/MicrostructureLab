@@ -1,4 +1,5 @@
 # renaname file to ci.yml
+# and move this file to .git/workflows folder
 name: CI
 
 on:
