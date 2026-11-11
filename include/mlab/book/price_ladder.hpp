@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <limits>
 #include <map>
 #include <numeric>
@@ -125,6 +126,58 @@ public:
             return dense_price;
         }
         return highest ? std::max(*dense_price, *sparse_price) : std::min(*dense_price, *sparse_price);
+    }
+
+    template <typename Function>
+    void for_each_level(bool highest, Function&& function) const {
+        if (highest) {
+            auto dense_slot = occupied_.find_highest();
+            auto sparse = sparse_levels_.rbegin();
+            while (dense_slot || sparse != sparse_levels_.rend()) {
+                while (sparse != sparse_levels_.rend() && sparse->second.order_count == 0) {
+                    ++sparse;
+                }
+                const auto dense_price =
+                    dense_slot ? price_for_slot(center_price_, *dense_slot) : std::nullopt;
+                if (dense_price && (sparse == sparse_levels_.rend() || *dense_price >= sparse->first)) {
+                    if (!std::invoke(function, *dense_price, dense_levels_[*dense_slot])) {
+                        return;
+                    }
+                    dense_slot = occupied_.find_next_below(*dense_slot);
+                } else if (sparse != sparse_levels_.rend()) {
+                    if (!std::invoke(function, sparse->first, sparse->second)) {
+                        return;
+                    }
+                    ++sparse;
+                } else {
+                    dense_slot = dense_slot ? occupied_.find_next_below(*dense_slot) : std::nullopt;
+                }
+            }
+            return;
+        }
+
+        auto dense_slot = occupied_.find_lowest();
+        auto sparse = sparse_levels_.begin();
+        while (dense_slot || sparse != sparse_levels_.end()) {
+            while (sparse != sparse_levels_.end() && sparse->second.order_count == 0) {
+                ++sparse;
+            }
+            const auto dense_price =
+                dense_slot ? price_for_slot(center_price_, *dense_slot) : std::nullopt;
+            if (dense_price && (sparse == sparse_levels_.end() || *dense_price <= sparse->first)) {
+                if (!std::invoke(function, *dense_price, dense_levels_[*dense_slot])) {
+                    return;
+                }
+                dense_slot = occupied_.find_next_above(*dense_slot);
+            } else if (sparse != sparse_levels_.end()) {
+                if (!std::invoke(function, sparse->first, sparse->second)) {
+                    return;
+                }
+                ++sparse;
+            } else {
+                dense_slot = dense_slot ? occupied_.find_next_above(*dense_slot) : std::nullopt;
+            }
+        }
     }
 
     [[nodiscard]] const Statistics& statistics() const noexcept {

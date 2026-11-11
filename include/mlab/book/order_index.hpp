@@ -90,6 +90,14 @@ public:
         return true;
     }
 
+    [[nodiscard]] bool replace(std::uint64_t old_id, std::uint64_t new_id,
+                               std::uint32_t value) noexcept {
+        if (old_id == new_id || !find(old_id) || find(new_id)) {
+            return false;
+        }
+        return erase(old_id) && insert(new_id, value);
+    }
+
     [[nodiscard]] std::size_t size() const noexcept {
         return size_;
     }
@@ -177,6 +185,34 @@ public:
         }
         entry = kNilIndex;
         --size_;
+        return true;
+    }
+
+    [[nodiscard]] bool replace(std::uint64_t old_id, std::uint64_t new_id,
+                               std::uint32_t value) {
+        if (old_id == new_id) {
+            return false;
+        }
+        const auto old_page_it = pages_.find(old_id / kPageSize);
+        if (old_page_it == pages_.end()) {
+            return false;
+        }
+        auto& old_entry = old_page_it->second->entries[
+            static_cast<std::size_t>(old_id % kPageSize)];
+        if (old_entry == kNilIndex || find(new_id)) {
+            return false;
+        }
+
+        const auto new_page_id = new_id / kPageSize;
+        auto new_page_it = pages_.find(new_page_id);
+        if (new_page_it == pages_.end()) {
+            auto page = std::make_unique<Page>();
+            new_page_it = pages_.emplace(new_page_id, std::move(page)).first;
+        }
+        auto& new_entry = new_page_it->second->entries[
+            static_cast<std::size_t>(new_id % kPageSize)];
+        new_entry = value;
+        old_entry = kNilIndex;
         return true;
     }
 

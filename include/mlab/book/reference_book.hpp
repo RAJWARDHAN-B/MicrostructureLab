@@ -24,6 +24,7 @@ enum class BookError : std::uint8_t {
     OrderNotFound,
     QuantityExceedsResting,
     ReplacementIdMatchesOld,
+    CapacityExceeded,
 };
 
 [[nodiscard]] constexpr bool succeeded(BookError error) noexcept {

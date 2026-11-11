@@ -52,6 +52,10 @@ if(BUILD_TESTING)
     target_link_libraries(order_index_test PRIVATE mlab_project_options)
     add_test(NAME order_index_test COMMAND order_index_test)
 
+    add_executable(order_book_test tests/unit/order_book_test.cpp)
+    target_link_libraries(order_book_test PRIVATE mlab_project_options)
+    add_test(NAME order_book_test COMMAND order_book_test)
+
     add_executable(core_smoke_test tests/unit/core_smoke_test.cpp)
     target_link_libraries(core_smoke_test PRIVATE mlab_project_options GTest::gtest_main)
     include(GoogleTest)
