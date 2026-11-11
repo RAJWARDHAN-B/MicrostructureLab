@@ -320,7 +320,7 @@ static_assert(sizeof(Order) == 32);
 - [x] `memory/object_pool.hpp` (index-based, free list, capacity fixed at construction).
 - [x] `book/level_bitmap.hpp` + unit tests (set/clear/find_highest/find_lowest/find_next_below/above).
 - [x] `book/price_ladder.hpp` with re-centering and the sparse fallback.
-- [ ] `book/order_index.hpp` (both policies).
+- [x] `book/order_index.hpp` (both policies).
 - [ ] `book/order_book.hpp`, templated on the index policy, with the same API as `ReferenceBook`.
 - [ ] **Differential test harness** (`tests/differential/`): a seeded random operation generator with realistic mixes (many cancels, clustered prices, occasional far-away prices and replaces). Apply every operation to both books and compare the full `dump()` periodically and the top of book after every operation. Run 10⁷+ operations per seed across many seeds in CI nightly.
 - [ ] Microbenchmarks (`bench/book_bench.cpp`): add, cancel, execute, replace, best-price lookup, and a realistic mix. Compare `std::map` (ReferenceBook) with OrderBook for each index policy.
