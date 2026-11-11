@@ -56,6 +56,17 @@ if(BUILD_TESTING)
     target_link_libraries(order_book_test PRIVATE mlab_project_options)
     add_test(NAME order_book_test COMMAND order_book_test)
 
+    add_executable(order_book_differential_test
+        tests/differential/order_book_differential_test.cpp
+    )
+    target_link_libraries(order_book_differential_test PRIVATE mlab_project_options)
+    add_test(
+        NAME order_book_differential_test
+        COMMAND order_book_differential_test --seed 12648430 --operations 50000
+            --dump-interval 1000
+    )
+    set_tests_properties(order_book_differential_test PROPERTIES TIMEOUT 120)
+
     add_executable(core_smoke_test tests/unit/core_smoke_test.cpp)
     target_link_libraries(core_smoke_test PRIVATE mlab_project_options GTest::gtest_main)
     include(GoogleTest)
