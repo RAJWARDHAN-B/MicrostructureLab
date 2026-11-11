@@ -1,3 +1,4 @@
+# renaname file to ci.yml
 name: CI
 
 on:
